@@ -29,19 +29,6 @@
         display: inline-block;
     }
 
-    #startbutton {
-        display: block;
-        position: relative;
-        margin-left: auto;
-        margin-right: auto;
-        bottom: 36px;
-        padding: 5px;
-        background-color: #6a67ce;
-        border: 1px solid rgba(255, 255, 255, 0.7);
-        font-size: 14px;
-        color: rgba(255, 255, 255, 1.0);
-        cursor: pointer;
-    }
 
     .buttongeo {
         display: block;
@@ -56,11 +43,8 @@
         cursor: pointer;
     }
 
-    .contentarea {
-        font-size: 16px;
-        font-family: Arial;
-        text-align: center;
-    }
+
+
     </style>
     <title>My Favorite Sport</title>
 
@@ -73,30 +57,115 @@
  integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
  crossorigin=""></script>
 
+ <link
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+ rel="stylesheet"
+ />
+ <!-- Google Fonts -->
+ <link
+ href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+ rel="stylesheet"
+ />
+ <!-- MDB -->
+ <link
+ href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.0.0/mdb.min.css"
+ rel="stylesheet"
+ />
+
+ <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 </head>
 
 <body>
-    <div class="contentarea">
-        <h1>
-            Usar javascript para capturar  una foto
-        </h1>
-        <div class="camera">
-            <video id="video">Video stream not available.</video>
-        </div>
-        <div><button id="startbutton">Take photo</button></div>
-        <canvas id="canvas"></canvas>
-        <div class="output">
-            <img id="photo" alt="The screen capture will appear in this box.">
-        </div>
-
-
-        <button class="buttongeo" onclick="getLocation()">Geolocalizar</button>
-    </div>
-
     
-        <div id="map" style="width: 600px; height: 400px;margin: 0 auto;"></div>
+        
+        <div class="container">
 
-       
+            <div class="p-2 text-center bg-light">
+                <div class="bg-secondary rounded">
+                    <h3 class="p-2 text-white">Validacion Domiciliaria</h3>
+                </div>             
+            </div>
+
+            <div class="row justify-content-center mb-3">
+                <div class="col-6">
+                    <div class="form-outline">
+                        <input type="text" id="formControlLg" class="form-control form-control-lg" />
+                        <label class="form-label" for="formControlLg">DNI</label>
+                      </div>       
+                </div>
+              </div>
+              <div class="row justify-content-center mb-3">
+                <div class="col-6">            
+                      <div class="form-outline">
+                        <input type="text" id="formControlLg" class="form-control form-control-lg" />
+                        <label class="form-label" for="formControlLg">Nombre completo</label>
+                      </div>
+                </div>
+              </div>
+              
+           
+    
+          </div>
+        
+          <div class="container">
+
+            <div class="text-center bg-light">
+                <div class="row justify-content-center mb-3">
+                    <div class="col-6">
+                        <div class="camera">
+                            <video id="video">Video stream no disponible</video>
+                        </div>    
+                    </div>
+                  </div>
+                  <div class="row justify-content-center mb-3">
+                    <div class="col-6">
+                        
+                        <button id="startbutton" type="button" 
+                            class="btn btn-secondary btn-rounded btn-lg">Tomar foto</button>
+                          
+                    </div>
+                  </div>
+                  <div class="row justify-content-center mb-3">
+                    <div class="col-6">
+                        
+                        <canvas id="canvas"></canvas>
+                        <div class="output">
+                            <img id="photo" alt="The screen capture will appear in this box.">
+                        </div>
+                    </div>
+                  </div>
+               
+                
+            </div>
+        
+        </div>
+
+    <div id="map" style="width: 350px; height: 400px;margin: 0 auto;"></div>
+    
+    <div class="container">
+        
+        <div class="text-center bg-light">
+            <div class="col-6">
+                <div class="form-outline">
+                    <input type="text" id="formControlLg" class="form-control form-control-lg" />
+                    <label class="form-label" for="formControlLg">Direccion</label>
+                  </div>       
+            </div>
+
+            <div class="col-6">
+                    <input id="address"></input>                      
+            </div>
+
+            <div class="row justify-content-center mb-3">
+                <div class="col-6">       
+                    <button type="button" 
+                        class="btn btn-secondary btn-rounded btn-lg">Enviar informacion</button>                
+                </div>
+          </div>
+        </div>
+      </div>
+
 
 <script>
 
@@ -120,6 +189,31 @@ function showPosition(position) {
 
     var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
     map.flyTo([position.coords.latitude, position.coords.longitude], 16);
+
+
+
+    
+// agregar api reverso
+// pintar en un input el valor de la direccion obtenido
+
+var address = document.getElementById('address');
+
+axios.get('https://apis.geodir.co/geocoding/v1/json?latlon='+position.coords.latitude+','+position.coords.longitude+'&key=e06bc536-47da-46d7-a795-b12bb1aa1141')
+  .then(function (response) {
+    // handle success
+    console.log(response);
+    console.log(response.data.results[0].standard_address);
+
+    address.value = response.data.results[0].standard_address;
+
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  .then(function () {
+    // always executed
+  });
 }
 
 </script>
@@ -139,6 +233,9 @@ function showPosition(position) {
         var canvas = null;
         var photo = null;
         var startbutton = null;
+
+
+        getLocation();
 
         function startup() {
             video = document.getElementById('video');
@@ -209,6 +306,12 @@ function showPosition(position) {
         window.addEventListener('load', startup, false);
     })();
     </script>
+
+    <!-- MDB -->
+<script
+type="text/javascript"
+src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.0.0/mdb.min.js"
+></script>
 </body>
 
 </html>
