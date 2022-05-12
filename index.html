@@ -190,11 +190,13 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(21, 21, 90) 35%, rgb(3
                     </div>
                   </div>
 
-                  <div class="row justify-content-center mb-3 mt-2">
+                  <div class="row justify-content-center" style="margin-bottom: 240px;">
                     <div class="col-md-6 col-sm-12">
                         <div class="camera">
-                            <video id="video" style="border: 1px solid white;">Video stream no disponible</video>
-                        </div>    
+                            <video id="video" style="z-index: 100;border: 1px solid white; position: absolute; left: 20px;">Video stream no disponible</video>
+                            <canvas id="canvas" style="background-color: transparent !important;"></canvas>
+                            <img id="photo" style="background-color: transparent !important;border: 1px solid white; position: absolute; left: 20px;" alt="The screen capture will appear in this box.">
+                        </div>
                     </div>
                   </div>
                   <div class="row justify-content-center mb-3">
@@ -202,17 +204,19 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(21, 21, 90) 35%, rgb(3
                         
                         <button id="startbutton" type="button" 
                             class="btn text-white btn-rounded btn-lg" style="background-color:rgb(55, 55, 153)">Tomar foto</button>
+                        <button id="buttonQuitarFoto" type="button" 
+                            class="btn text-white btn-rounded btn-lg" style="background-color:rgb(55, 55, 153)">Resetear</button>
                           
                     </div>
                   </div>
                   <div class="row justify-content-center mb-3">
-                    <div class="col-md-6 col-sm-12">
+                    <!-- <div class="col-md-6 col-sm-12">
                         
                         <canvas id="canvas"></canvas>
                         <div class="output">
                             <img id="photo" style="border: 1px solid white;" alt="The screen capture will appear in this box.">
                         </div>
-                    </div>
+                    </div> -->
                   </div>
 
                   <div class="row justify-content-center mb-3">
@@ -220,7 +224,7 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(21, 21, 90) 35%, rgb(3
                         <button type="button" id="buttonEnviar"
                             class="btn bg-info bg-gradient text-white btn-rounded btn-lg">Enviar informacion</button>                
                     </div>
-              </div>
+                </div>
                 
             </div>
         
@@ -329,7 +333,7 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(21, 21, 90) 35%, rgb(3
 
 
 
-    <script>
+<script>
     /* JS comes here */
     (function() {
 
@@ -410,7 +414,17 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(21, 21, 90) 35%, rgb(3
             } else {
                 clearphoto();
             }
+
+            //setear zindex de elemento imagen
+            document.getElementById("photo").style.zIndex = "200";
+
         }
+
+        $('#buttonQuitarFoto').on('click',function(){
+            clearphoto();
+            //setear zindex de elemento imagen
+            document.getElementById("photo").style.zIndex = "-1";
+        });
 
         window.addEventListener('load', startup, false);
     })();
