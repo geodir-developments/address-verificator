@@ -84,14 +84,14 @@
         
         <div class="container">
 
-            <div class="p-2 text-center bg-light">
+            <div class="pt-2 pb-2 text-center bg-light">
                 <div class="bg-secondary rounded">
                     <h3 class="p-2 text-white">Validacion Domiciliaria</h3>
                 </div>             
             </div>
 
             <div class="row justify-content-center mb-3">
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <div class="form-outline">
                         <input type="text" id="formControlLg" class="form-control form-control-lg" />
                         <label class="form-label" for="formControlLg">DNI</label>
@@ -99,7 +99,7 @@
                 </div>
               </div>
               <div class="row justify-content-center mb-3">
-                <div class="col-6">            
+                <div class="col-md-6 col-sm-12">            
                       <div class="form-outline">
                         <input type="text" id="formControlLg" class="form-control form-control-lg" />
                         <label class="form-label" for="formControlLg">Nombre completo</label>
@@ -118,7 +118,7 @@
                
 
                   <div class="row justify-content-center mb-3">
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-outline">
                             <input type="text" id="formControlLg" class="form-control form-control-lg" />
                             <label class="form-label" for="formControlLg">Direccion</label>
@@ -127,9 +127,9 @@
                   </div>
 
                   <div class="row justify-content-center mb-3">
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-outline">
-                            <input id="address"></input>      
+                            <input placeholder="GPS" id="address" disabled class="form-control form-control-lg"></input>      
                         </div>       
                     </div>
                   </div>
@@ -138,14 +138,14 @@
 
 
                   <div class="row justify-content-center mb-3 mt-2">
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         <div class="camera">
                             <video id="video">Video stream no disponible</video>
                         </div>    
                     </div>
                   </div>
                   <div class="row justify-content-center mb-3">
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         
                         <button id="startbutton" type="button" 
                             class="btn btn-secondary btn-rounded btn-lg">Tomar foto</button>
@@ -153,7 +153,7 @@
                     </div>
                   </div>
                   <div class="row justify-content-center mb-3">
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         
                         <canvas id="canvas"></canvas>
                         <div class="output">
@@ -163,7 +163,7 @@
                   </div>
 
                   <div class="row justify-content-center mb-3">
-                    <div class="col-6">       
+                    <div class="col-md-6 col-sm-12">       
                         <button type="button" 
                             class="btn btn-secondary btn-rounded btn-lg">Enviar informacion</button>                
                     </div>
@@ -183,7 +183,7 @@
 
 	var tiles = L.tileLayer('https://tiles.geodir.co/osm_tiles/{z}/{x}/{y}.png', {
 		maxZoom: 18,
-		attribution: '&copy; <a href="https://maps.geodir.co/" target="_blank">Geodir Maps</a> Contribuciones',
+		attribution: '&copy; <a href="https://maps.geodir.co/" target="_blank">Inkamaps</a> Contribuciones',
 	}).addTo(map);
 
     function getLocation() {
