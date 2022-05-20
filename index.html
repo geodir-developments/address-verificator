@@ -266,12 +266,13 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(21, 21, 90) 35%, rgb(3
     var latitud;
     var longitud;
     var address;
+    var marker;
 
     function showPosition(position) {
         latitud = position.coords.latitude;
         longitud = position.coords.longitude;
 
-        var marker = L.marker([position.coords.latitude, position.coords.longitude], {icon: casaIcon}).addTo(map);
+        marker = L.marker([position.coords.latitude, position.coords.longitude], {icon: casaIcon}).addTo(map);
         map.flyTo([position.coords.latitude, position.coords.longitude], 16);
     
         // agregar api reverso
@@ -327,6 +328,7 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(21, 21, 90) 35%, rgb(3
     });
 
     $('#refreshGps').on('click',function(){
+        map.removeLayer(marker);
         getLocation();
     });
 </script>
