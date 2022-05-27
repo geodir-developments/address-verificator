@@ -230,7 +230,9 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(21, 21, 90) 35%, rgb(3
         
         </div>
 
-    
+        <form name='form'>
+            <input type='file' display name='file' style="display: none" id="inputphoto">
+        </form>
     
 
 
@@ -299,32 +301,59 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(21, 21, 90) 35%, rgb(3
         });
     }
 
+       
     $('#buttonEnviar').on('click',function(){
-        Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        background: '#151515',
-        title: 'Domicilio Verificado',
-        customClass : {
-              title: 'swal2-title'
-            },
-        showConfirmButton: false,
-        timer: 1500
-        });
-
+        
         var dni = $('#dni').val();
         var nombre = $('#nombre').val();
         var fecha = new Date();
-        fecha =fecha.toLocaleDateString();
+        //fecha =fecha.toLocaleDateString();
+        let canvas = document.getElementById('canvas');
+        let data = canvas.toDataURL('image/png');
         
         var json = {
             "dni": dni,
-            "nombreCompleto": nombre,
-            "fecha": fecha,
-            "latitud": latitud,
-            "longitud": longitud
+            "nombres": nombre,
+            "fecha_creacion": fecha,
+            "x": latitud,
+            "y": longitud,
+            "foto": data
         };
         console.log(json);
+
+        var urlLocal = 'http://localhost:8080/usuarios/save';
+        var urlProduccion = 'https://addressverificator.herokuapp.com/usuarios/save';
+
+        axios.post(urlProduccion, json)
+        .then(function (response) {
+            console.log(response);
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                background: '#151515',
+                title: 'Domicilio Verificado',
+                customClass : {
+                    title: 'swal2-title'
+                    },
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+        .catch(function (error) {
+            console.log(error);
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                background: '#151515',
+                title: 'No se pudo guardar la información',
+                customClass : {
+                    title: 'swal2-title'
+                    },
+                showConfirmButton: false,
+                timer: 1500
+            });
+        });
+    
     });
 
     $('#refreshGps').on('click',function(){
@@ -402,6 +431,8 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(21, 21, 90) 35%, rgb(3
 
             var data = canvas.toDataURL('image/png');
             photo.setAttribute('src', data);
+
+            
         }
 
         function takepicture() {
@@ -413,6 +444,7 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(21, 21, 90) 35%, rgb(3
 
                 var data = canvas.toDataURL('image/png');
                 photo.setAttribute('src', data);
+                console.log(data);
             } else {
                 clearphoto();
             }
