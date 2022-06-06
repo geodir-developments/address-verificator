@@ -321,10 +321,11 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(21, 21, 90) 35%, rgb(3
         };
         console.log(json);
 
-        var urlLocal = 'http://localhost:8080/usuarios/save';
-        var urlProduccion = 'https://addressverificator.herokuapp.com/usuarios/save';
+        //var urlLocal = 'http://localhost:8080/usuarios/save';
+        //var urlProduccion = 'https://addressverificator.herokuapp.com/usuarios/save';
+        var urlServer = 'http://3.143.229.174:8080/usuarios/save';
 
-        axios.post(urlProduccion, json)
+        axios.post(urlServer, json)
         .then(function (response) {
             console.log(response);
             Swal.fire({
