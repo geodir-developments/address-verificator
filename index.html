@@ -340,22 +340,23 @@
         
         var json = {
             "dni": dni,
-            "nombres": nombre,
-            "fecha_creacion": fecha,
-            "x": longitud,
-            "y": latitud,
+            "nombre": nombre,
+            "fecha": fecha,
+            "longitud": longitud,
+            "latitud": latitud,
             "foto": data
         };
         console.log(json);
 
         //var urlLocal = 'http://localhost:8080/usuarios/save';
         //var urlProduccion = 'https://addressverificator.herokuapp.com/usuarios/save';
-        var urlServer = 'https://apihomeverificator.geodir.co/usuarios/save';
-
+    // var urlServer = 'https://apihomeverificator.geodir.co/usuarios/save';
+        var urlServer= 'http://localhost:8080/v1/usuario';
         axios.post(urlServer, json)
         .then(function (response) {
             console.log(response);
-            Swal.fire({
+            if(response.data.status == 'OK'){
+                Swal.fire({
                 position: 'top-end',
                 icon: 'success',
                 background: '#151515',
@@ -366,9 +367,10 @@
                 showConfirmButton: false,
                 timer: 1500
             });
-
             document.getElementById('dni').value = '';
             document.getElementById('nombre').value = '';
+            }
+
 
         })
         .catch(function (error) {
