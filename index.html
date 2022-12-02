@@ -277,7 +277,7 @@
 
         //var address = document.getElementById('address');
 
-        axios.get('https://apis.geodir.co/geocoding/v1/json?latlon='+position.coords.latitude+','+position.coords.longitude+'&key=e06bc536-47da-46d7-a795-b12bb1aa1141')
+        axios.get('https://apis.geodir.co/geocoding/v1/json?latlon='+position.coords.latitude+','+position.coords.longitude+'&key=e386035b-c553-4f9e-9354-c6a3e45ef426')
         .then(function (response) {
             // handle success
             console.log(response);
@@ -340,22 +340,23 @@
         
         var json = {
             "dni": dni,
-            "nombres": nombre,
-            "fecha_creacion": fecha,
-            "x": longitud,
-            "y": latitud,
+            "nombre": nombre,
+            "fecha": fecha,
+            "longitud": longitud,
+            "latitud": latitud,
             "foto": data
         };
         console.log(json);
 
         //var urlLocal = 'http://localhost:8080/usuarios/save';
         //var urlProduccion = 'https://addressverificator.herokuapp.com/usuarios/save';
-        var urlServer = 'https://apihomeverificator.geodir.co/usuarios/save';
-
+    // var urlServer = 'https://apihomeverificator.geodir.co/usuarios/save';
+        var urlServer= 'http://localhost:8080/v1/usuario';
         axios.post(urlServer, json)
         .then(function (response) {
             console.log(response);
-            Swal.fire({
+            if(response.data.status == 'OK'){
+                Swal.fire({
                 position: 'top-end',
                 icon: 'success',
                 background: '#151515',
@@ -366,9 +367,10 @@
                 showConfirmButton: false,
                 timer: 1500
             });
-
             document.getElementById('dni').value = '';
             document.getElementById('nombre').value = '';
+            }
+
 
         })
         .catch(function (error) {
