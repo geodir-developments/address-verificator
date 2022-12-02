@@ -277,7 +277,7 @@
 
         //var address = document.getElementById('address');
 
-        axios.get('https://apis.geodir.co/geocoding/v1/json?latlon='+position.coords.latitude+','+position.coords.longitude+'&key=e06bc536-47da-46d7-a795-b12bb1aa1141')
+        axios.get('https://apis.geodir.co/geocoding/v1/json?latlon='+position.coords.latitude+','+position.coords.longitude+'&key=e386035b-c553-4f9e-9354-c6a3e45ef426')
         .then(function (response) {
             // handle success
             console.log(response);
@@ -334,7 +334,7 @@
         }
 
         var fecha = new Date();
-        //fecha =fecha.toLocaleDateString();
+        fecha =fecha.getTime();
         let canvas = document.getElementById('canvas');
         let data = canvas.toDataURL('image/png');
         
