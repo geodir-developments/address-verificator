@@ -54,6 +54,26 @@
     var longitud;
     var address;
     var marker;
+    var distrito_privincia_dep = [];
+    var crimedata;
+    var deographics;
+
+    function getCrimedata(latitud, longitud){
+        let data = {
+            groups: []
+        };
+        axios.get('https://apis.geodir.co/crimedata/v1/json?latlon=' + latitud+','+ longitud +'&key=e06bc536-47da-46d7-a795-b12bb1aa1141')
+        .then((resp) => {
+        // console.log(resp.data)
+        data.groups = [...resp.data.groups]
+        // console.log(crimedata)
+        }) .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        
+        return data
+    }
 
     function showPosition(position) {
         latitud = position.coords.latitude;
@@ -64,17 +84,31 @@
     
         // agregar api reverso
         // pintar en un input el valor de la direccion obtenido
-
+       
         //var address = document.getElementById('address');
 
         axios.get('https://apis.geodir.co/geocoding/v1/json?latlon='+position.coords.latitude+','+position.coords.longitude+'&key=e386035b-c553-4f9e-9354-c6a3e45ef426')
         .then(function (response) {
+            let nombre_direccion ;
             // handle success
-            console.log(response);
-            console.log(response.data.results[0].standard_address);
+            // console.log(response);
+        //   console.log(response.data.results[0].address_segments.length);
 
             //address.value = response.data.results[0].standard_address;
             address = response.data.results[0].standard_address;
+
+            for(let i = 0; i < response.data.results[0].address_segments.length; i++){
+               
+                let tipos =  response.data.results[0].address_segments[i].types[0] ;
+                // console.log(tipos)
+                if(tipos === 'admin_level_1' || tipos === 'admin_level_2' || tipos === 'admin_level_3' || tipos === 'admin_level_3_code'){
+                    nombre_direccion = response.data.results[0].address_segments[i].name; 
+                    // nombre_direccion +=  nombre_direccion;
+                //   console.log(nombre_direccion)
+                distrito_privincia_dep.push(nombre_direccion)
+                }
+            }
+    //    console.log(distrito_privincia_dep);
 
         })
         .catch(function (error) {
@@ -84,11 +118,18 @@
         .then(function () {
             // always executed
         });
+        ;
+        var data ; 
+        data = getCrimedata(latitud, longitud)
+      console.log(data)
     }
-
+    
        
     $('#buttonEnviar').on('click',function(){
                
+        
+
+
         var dni = $('#dni').val();
         var nombre = $('#nombre').val();
         var errors = [];
@@ -122,19 +163,32 @@
             });
             return
         }
-
+        //fotoMpap
+       
+       
+        
+        
+       
         var fecha = new Date();
         fecha =fecha.getTime();
         let canvas = document.getElementById('canvas');
         let data = canvas.toDataURL('image/png');
-        
+
+        let mapaFoto = document.getElementById('map');
+        console.log()
+
+    
+    
         var json = {
             "dni": dni,
             "nombre": nombre,
             "fecha": fecha,
             "longitud": longitud,
             "latitud": latitud,
-            "foto": data
+            "direccion" : address,
+            "dis_prov_dep" : distrito_privincia_dep,
+            "foto": data,
+            "fotoMapa": mapaFoto.getAttribute('src')
         };
         console.log(json);
 
@@ -185,26 +239,7 @@
         map.removeLayer(marker);
         getLocation();
     });
-    function generatePdf(imagen){
-    //   var doc = new jsPDF('p','pt', 'letter');
-    //   var imgData = imagen;
-    //   doc.addImage(imgData, 'PNG', 25, 25,150 , 'Logo')
-    //   doc.output('dataurlnewwindow',{filename:'new.pdf'})
-//     const doc = new jsPDF('p','pt', 'letter');
-//     doc.addImage(imagen, 'PNG', 25, 25,150 , 'Logo')
-// doc.text("Hello world!", 10, 10);
-// doc.save("a4.pdf");
-var pdf = new jsPDF();
-pdf.text(20,20,"Agregar imagenes a un PDF!");
-/// Codigo para agregar una imagen
-var image1 = new Image();
-image1.src = "http://localhost:8080/recursos/images/frank-20221202-8059.png"; /// URL de la imagen
-pdf.addImage(image1, 'PNG', 25, 30, 170, 180); // Agregar la imagen al PDF (X, Y, Width, Height)
-/////
-image1.onload = function(){
-pdf.save("mipdf.pdf");
-}
-    }
+   
 
     // {/* /* JS comes here */ */}
     (function() {
@@ -218,6 +253,7 @@ pdf.save("mipdf.pdf");
         var canvas = null;
         var photo = null;
         var startbutton = null;
+        var mapImagen = null;
 
 
         getLocation();
@@ -285,10 +321,27 @@ pdf.save("mipdf.pdf");
 
             startbutton.addEventListener('click', function(ev) {
                 takepicture();
+                Div2IMG('map')
+                
+                
                 ev.preventDefault();
             }, false);
 
             clearphoto();
+        }
+
+       
+         
+        function Div2IMG(divID){
+            let imageMapa = document.getElementById(divID)
+            html2canvas([imageMapa], {
+                onrendered: function (canvas) {
+                    mapaImg = canvas.toDataURL('image/png'); //o por 'image/jpeg' 
+                    //display 64bit imag
+                    imageMapa.setAttribute('src', mapaImg )
+                                
+                }
+            })
         }
 
 
