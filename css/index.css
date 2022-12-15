@@ -1,0 +1,50 @@
+
+    /* CSS comes here */
+    #video {
+        border: 1px solid black;
+        width: 370px;
+        height: 240px;
+    }
+
+    #photo {
+        border: 1px solid black;
+        width: 370px;
+        height: 240px;
+    }
+
+    #canvas {
+        display: none;
+    }
+
+    .camera {
+        width: 340px;
+        display: inline-block;
+    }
+
+    .output {
+        width: 340px;
+        display: inline-block;
+    }
+
+
+    .buttongeo {
+        display: block;
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 5px;
+        background-color: #6a67ce;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        color: rgba(255, 255, 255, 1.0);
+        cursor: pointer;
+    }
+
+    .swal2-title {
+        color: white !important;
+    }
+
+    .swal2-title2 {
+        color: black !important;
+    }
+

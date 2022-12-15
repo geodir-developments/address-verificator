@@ -58,22 +58,7 @@
     var crimedata;
     var deographics;
 
-    function getCrimedata(latitud, longitud){
-        let data = {
-            groups: []
-        };
-        axios.get('https://apis.geodir.co/crimedata/v1/json?latlon=' + latitud+','+ longitud +'&key=e06bc536-47da-46d7-a795-b12bb1aa1141')
-        .then((resp) => {
-        // console.log(resp.data)
-        data.groups = [...resp.data.groups]
-        // console.log(crimedata)
-        }) .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
-        
-        return data
-    }
+  
 
     function showPosition(position) {
         latitud = position.coords.latitude;
@@ -119,9 +104,7 @@
             // always executed
         });
         ;
-        var data ; 
-        data = getCrimedata(latitud, longitud)
-      console.log(data)
+       
     }
     
        
@@ -175,7 +158,8 @@
         let data = canvas.toDataURL('image/png');
 
         let mapaFoto = document.getElementById('map');
-        console.log()
+      
+        let loading = document.getElementById("body_loading")
 
     
     
@@ -191,15 +175,17 @@
             "fotoMapa": mapaFoto.getAttribute('src')
         };
         console.log(json);
-
+        loading.style.display = "flex"
         //var urlLocal = 'http://localhost:8080/usuarios/save';
         //var urlProduccion = 'https://addressverificator.herokuapp.com/usuarios/save';
     // var urlServer = 'https://apihomeverificator.geodir.co/usuarios/save';
         var urlServer= 'http://localhost:8080/v1/usuario';
         axios.post(urlServer, json)
         .then(function (response) {
+            // console.log(loading);
             console.log(response);
             if(response.data.status == 'OK'){
+                loading.style.display = "none"
                 Swal.fire({
                 position: 'top-end',
                 icon: 'success',
