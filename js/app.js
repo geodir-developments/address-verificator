@@ -160,7 +160,8 @@
         let mapaFoto = document.getElementById('map');
       
         let loading = document.getElementById("body_loading")
-
+        let tokenDesa = '';
+        let tokenProd = 'e06bc536-47da-46d7-a795-b12bb1aa1141'
     
     
         var json = {
@@ -172,15 +173,18 @@
             "direccion" : address,
             "dis_prov_dep" : distrito_privincia_dep,
             "foto": data,
-            "fotoMapa": mapaFoto.getAttribute('src')
+            "fotoMapa": mapaFoto.getAttribute('src'),
+            "token": tokenProd
         };
-        console.log(json);
+        // console.log(json);
         loading.style.display = "flex"
         //var urlLocal = 'http://localhost:8080/usuarios/save';
         //var urlProduccion = 'https://addressverificator.herokuapp.com/usuarios/save';
     // var urlServer = 'https://apihomeverificator.geodir.co/usuarios/save';
         var urlServer= 'http://localhost:8080/v1/usuario';
-        axios.post(urlServer, json)
+        var urlServerDev= 'http://localhost:8072/home-verificator/v1/usuario';
+        var urlServerProd = 'http://18.117.165.32:8091/v1/usuario';
+        axios.post(urlServerProd, json)
         .then(function (response) {
             // console.log(loading);
             console.log(response);
@@ -206,6 +210,7 @@
         })
         .catch(function (error) {
             console.log(error);
+            loading.style.display = "none"
             Swal.fire({
                 position: 'top-end',
                 icon: 'error',
